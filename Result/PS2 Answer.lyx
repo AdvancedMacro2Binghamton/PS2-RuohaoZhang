@@ -182,7 +182,7 @@ Using MATLAB to solve the value function, can get the plot of value function
 
 \begin_layout Standard
 \begin_inset Graphics
-	filename Q2 result plot.jpg
+	filename /Users/ruohaozhang/Documents/Binghamton/ECON 634/PS2-RuohaoZhang/graphes/Q2 result plot.jpg
 	scale 22
 
 \end_inset
@@ -218,7 +218,7 @@ The plot shows that for both states, value function is always increasing
 
 \begin_layout Standard
 \begin_inset Graphics
-	filename Q3 plot.jpg
+	filename /Users/ruohaozhang/Documents/Binghamton/ECON 634/PS2-RuohaoZhang/graphes/Q3 plot.jpg
 	scale 22
 
 \end_inset
@@ -246,49 +246,102 @@ The graph shows that policy function is increasing in both
 .
 \end_layout
 
-\begin_layout Subparagraph
+\begin_layout Standard
 4.
- Now, simulate the economy by drawing random values for 
-\begin_inset Formula $A_{t}$
+ After simulation, I find that 
+\begin_inset Formula $A^{l}=0.995$
 \end_inset
 
- according the the stochastic process we defined above.
- Calibrate the values for 
-\begin_inset Formula $A^{h}$
+, 
+\begin_inset Formula $A^{h}=1.0016$
 \end_inset
 
- and 
-\begin_inset Formula $A^{l}$
-\end_inset
-
- such that the standard deviation of output in the model matches the standard
- deviation of quarterly output in the US of around 
+ will result a standard deviation less than 
 \begin_inset Formula $1.8\%$
 \end_inset
 
 .
- (To do this, draw only 
-\begin_inset Formula $1$
+ I generate two simulated 
+\begin_inset Formula $A_{t}$
 \end_inset
 
- random sequence for 
-\begin_inset Formula $\left\{ A_{t}\right\} $
+ series, started with low states and high states respectively.
+ The started capital level is the steady state capital calculated from the
+ policy functions of two states.
+ The numerical result shows that these two steady state capital level is
+ very close to each other (
+\begin_inset Formula $K^{ss,l}=33.1$
 \end_inset
 
- and then use the same sequence to see what happens for different values
- of 
-\begin_inset Formula $A^{h}$
+, 
+\begin_inset Formula $K^{ss,h}=34.2$
 \end_inset
 
-.)
+).
+ Based on the transition matrix, the state is very likely to keep.
+ Therefore, I assume that the economy is very easy to stay on the steady
+ state.
+ The result shows that for both series, given 
+\begin_inset Formula $A^{l}=0.995$
+\end_inset
+
+, 
+\begin_inset Formula $A^{h}=1.0016$
+\end_inset
+
+, the standard deviation is around 
+\begin_inset Formula $1\%$
+\end_inset
+
+.
+ 
 \end_layout
 
-\begin_layout Subparagraph
+\begin_layout Standard
 5.
- Extra credit: Solve the problem under uncertainty using EITHER a different
- programming language OR by using for loops instead of vectorization withing
- Matlab.
- Compare the speed differences.
+ The code using loops is included in the MATLAB code 
+\begin_inset Quotes eld
+\end_inset
+
+loops.m
+\begin_inset Quotes erd
+\end_inset
+
+, and the vectorization code is included in the MATLAB code 
+\begin_inset Quotes eld
+\end_inset
+
+VFIdeterministic.m
+\begin_inset Quotes erd
+\end_inset
+
+.
+ By running and timing the program, the result is following (the timing
+ of loop is on the top, and the timing of vectorization on the bottom).
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename /Users/ruohaozhang/Documents/Binghamton/ECON 634/PS2-RuohaoZhang/graphes/loop time.png
+	scale 30
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename /Users/ruohaozhang/Documents/Binghamton/ECON 634/PS2-RuohaoZhang/graphes/vectoriztion time.png
+	scale 30
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+It is obvious that vectorization is much faster than loops in calculation.
 \end_layout
 
 \end_body
