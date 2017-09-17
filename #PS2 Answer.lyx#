@@ -70,59 +70,34 @@
 
 \begin_body
 
-\begin_layout Section*
-Problem Set 2
+\begin_layout Title
+ECON 634 Problem Set 2 Answer
 \end_layout
 
-\begin_layout Standard
-Write a program that solves the neoclassical growth model with technology
- shocks through value function iteration.
+\begin_layout Author
+Ruohao Zhang
 \end_layout
 
-\begin_layout Standard
-In the repository you will find some basic code that solves the deterministic
- model in which a representative household solves subject to the resource
- constraint 
-\begin_inset Formula $K_{t+1}+C_{t}=K_{t}^{\alpha}+\left(1-\delta\right)K_{t}$
-\end_inset
-
- and a given 
-\begin_inset Formula $K_{0}$
-\end_inset
-
-.
- 
-\end_layout
-
-\begin_layout Standard
-Modify this program to account for random technology shocks.
- The production function is now 
+\begin_layout Enumerate
+The functional equation is:
 \begin_inset Formula 
-\[
-Y_{t}=A_{t}K_{t}^{\alpha}
-\]
+\begin{align}
+V(K_{t},A_{t}) & =\quad\max_{K_{t+1}}\quad\frac{(A_{t}K_{t}^{\alpha}+\left(1-\delta\right)K_{t}-K_{t+1})^{1-\sigma}}{1-\sigma}\label{eq:1}\\
+ & \quad\quad\quad\qquad+\beta E[V(K_{t+1},A_{t+1})]\nonumber 
+\end{align}
 
 \end_inset
 
- where 
-\begin_inset Formula $A_{t}$
-\end_inset
-
- is random and not known when 
+State variables are 
 \begin_inset Formula $K_{t}$
 \end_inset
 
- is chosen.
- Let's keep things simple by assuming that 
-\begin_inset Formula $\left\{ A_{t}\right\} $
-\end_inset
-
- follows a Markov process with only two states, 
-\begin_inset Formula $A^{h}$
-\end_inset
-
  and 
-\begin_inset Formula $A^{l}$
+\begin_inset Formula $A_{t}$
+\end_inset
+
+, control variable is 
+\begin_inset Formula $K_{t+1}\in[0,A_{t}K_{t}^{\alpha}+(1-\delta)k_{t}]$
 \end_inset
 
 .
@@ -130,177 +105,93 @@ Y_{t}=A_{t}K_{t}^{\alpha}
 \end_layout
 
 \begin_layout Standard
-We can calibrate the model to the US economy by picking 
-\begin_inset Formula $\delta=0.025$
-\end_inset
-
- (targeting an annual depreciation rate of around 
-\begin_inset Formula $10\%$
-\end_inset
-
-), a capital share of income of 
-\begin_inset Formula $.35=\alpha$
-\end_inset
-
-, and 
-\begin_inset Formula $\beta=.99$
-\end_inset
-
- targeting an interest rate of around 
-\begin_inset Formula $4\%$
-\end_inset
-
- per year
-\begin_inset Foot
-status open
-
-\begin_layout Plain Layout
-\begin_inset Formula $4\%$
-\end_inset
-
- is actually a bit too high compared to US data, but the smaller we choose
-\begin_inset Formula $\beta$
-\end_inset
-
- the faster is convergence)
-\end_layout
+2.
+ From the value function, can get Euler equation:
+\begin_inset Formula 
+\begin{equation}
+U^{'}(C_{t})=\beta E\left\{ U^{'}(C_{t+1})[\alpha A_{t+1}K_{t+1}^{\alpha-1}+(1-\delta)]\right\} \label{eq:2}
+\end{equation}
 
 \end_inset
 
-.
- For the IES, take the standard value of 
-\begin_inset Formula $\sigma=2$
+The possible maximum 
+\begin_inset Formula $K$
 \end_inset
 
-.
- Now we need to pick the elements of the transition matrix for 
-\begin_inset Formula $A_{t}$
-\end_inset
-
- denoted 
-\begin_inset Formula $\Pi=\left[\begin{array}{cc}
-\pi^{hh} & 1-\pi^{hh}\\
-1-\pi^{ll} & \pi^{ll}
-\end{array}\right]$
-\end_inset
-
- and the values for 
-\begin_inset Formula $A^{h}$
-\end_inset
-
- and 
-\begin_inset Formula $A^{l}$
-\end_inset
-
-.
- For the transition probabilities we can look at the average frequency and
- duration of recessions in US data as determined by the NBER.
- With that information we get 
-\begin_inset Formula $\pi^{hh}=0.977$
-\end_inset
-
- and 
-\begin_inset Formula $\pi^{ll}=0.926$
-\end_inset
-
-.
- We would like to pick the last two parameters to satisfy two conditions:
- first, we want to normalize the long-run mean of 
-\begin_inset Formula $A_{t}$
-\end_inset
-
- to be 
-\begin_inset Formula $1$
-\end_inset
-
-.
- Second, we would like the size of the fluctuations in output to roughly
- match the size of the fluctuations in US GDP, that is we would like the
- standard deviation of 
-\begin_inset Formula $Y_{t}$
-\end_inset
-
- in the model to be similar to the one in the data.
- But it is hard to know what that means for the values of 
-\begin_inset Formula $A$
-\end_inset
-
- without solving the model first! Therefore, we start with a guess of 
-\begin_inset Formula $A^{h}=1.1$
-\end_inset
-
- (note that this implies a value of 
-\begin_inset Formula $A^{l}=678$
-\end_inset
-
- from the invariant distribution of 
-\begin_inset Formula $\Pi$
-\end_inset
-
-).
-\begin_inset Foot
-status open
-
-\begin_layout Plain Layout
-If 
-\begin_inset Formula $\bar{\pi}_{h}$
-\end_inset
-
- and 
-\begin_inset Formula $\bar{\pi}_{l}=1-\bar{\pi}_{h}$
-\end_inset
-
- are the long-run probabilities of the invariant distribution associated
- with 
-\begin_inset Formula $\Pi$
-\end_inset
-
- then the requirement that the long-run mean of 
-\begin_inset Formula $A_{t}=1$
-\end_inset
-
- implies 
-\begin_inset Formula $\pi_{h}A^{h}+\pi_{l}A^{l}=1$
-\end_inset
-
- from which we can back out the value for 
-\begin_inset Formula $A^{l}$
-\end_inset
-
-.
-\end_layout
-
-\end_inset
-
- Once we have solved the model and find that the output fluctuations are
- too large we can still adjust those values – in other words, we calibrate
- 
-\begin_inset Formula $A^{h}$
-\end_inset
-
- 
+ is using the 
 \begin_inset Quotes eld
 \end_inset
 
-inside the model
+steady state 
+\begin_inset Formula $K$
+\end_inset
+
+
 \begin_inset Quotes erd
 \end_inset
 
-.
+ if all states are 
+\begin_inset Formula $A^{H}$
+\end_inset
+
+ and assume no consumption.
+ That 
+\begin_inset Quotes eld
+\end_inset
+
+steady state 
+\begin_inset Formula $K$
+\end_inset
+
+
+\begin_inset Quotes erd
+\end_inset
+
+ is:
+\begin_inset Formula 
+\begin{equation}
+K^{*}=(\frac{\alpha A^{H}}{\frac{1}{\beta}+\delta-1})^{\frac{1}{1-\alpha}}\label{eq:3}
+\end{equation}
+
+\end_inset
+
+Then the possible maximum 
+\begin_inset Formula $K$
+\end_inset
+
+, denoted by 
+\begin_inset Formula $\bar{K}$
+\end_inset
+
+ is:
+\begin_inset Formula 
+\begin{equation}
+\bar{K}=A^{H}(\frac{\alpha A^{H}}{\frac{1}{\beta}+\delta-1})^{\frac{\alpha}{1-\alpha}}+(1-\delta)(\frac{\alpha A^{H}}{\frac{1}{\beta}+\delta-1})^{\frac{1}{1-\alpha}}\label{eq:4}
+\end{equation}
+
+\end_inset
+
+Using MATLAB to solve the value function, can get the plot of value function
+ for both states:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename Q2 result plot.jpg
+	scale 22
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The plot shows that for both states, value function is always increasing
+ and concave.
 \end_layout
 
 \begin_layout Enumerate
-State the dynamic programming problem by writing down the functional equation.
- Clearly state which ones are the state variable(s) and control variable(s)
- of the problem.
-\end_layout
-
-\begin_layout Enumerate
-
-\end_layout
-
-\begin_layout Enumerate
-Solve the model, and plot the value function over 
+Plot the policy function over 
 \begin_inset Formula $K$
 \end_inset
 
@@ -308,33 +199,7 @@ Solve the model, and plot the value function over
 \begin_inset Formula $A$
 \end_inset
 
-.
- Is it increasing and concave?
-\end_layout
-
-\begin_layout Enumerate
-Plot the policy function (ie capital 
-\begin_inset Formula $K'$
-\end_inset
-
- next period) over 
-\begin_inset Formula $K$
-\end_inset
-
- for each state of 
-\begin_inset Formula $A$
-\end_inset
-
-.
- Is it increasing in 
-\begin_inset Formula $K$
-\end_inset
-
- and 
-\begin_inset Formula $A$
-\end_inset
-
-? Plot savings over 
+ and savings over 
 \begin_inset Formula $K$
 \end_inset
 
@@ -342,8 +207,21 @@ Plot the policy function (ie capital
 \begin_inset Formula $A$
 \end_inset
 
-.
- Is it increasing in 
+:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename Q3 plot.jpg
+	scale 22
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The graph shows that policy function is increasing in both 
 \begin_inset Formula $K$
 \end_inset
 
@@ -351,11 +229,20 @@ Plot the policy function (ie capital
 \begin_inset Formula $A$
 \end_inset
 
-?
+, saving is increasing in 
+\begin_inset Formula $A$
+\end_inset
+
+, but not in 
+\begin_inset Formula $K$
+\end_inset
+
+.
 \end_layout
 
-\begin_layout Enumerate
-Now, simulate the economy by drawing random values for 
+\begin_layout Subparagraph
+4.
+ Now, simulate the economy by drawing random values for 
 \begin_inset Formula $A_{t}$
 \end_inset
 
@@ -390,8 +277,9 @@ Now, simulate the economy by drawing random values for
 .)
 \end_layout
 
-\begin_layout Enumerate
-Extra credit: Solve the problem under uncertainty using EITHER a different
+\begin_layout Subparagraph
+5.
+ Extra credit: Solve the problem under uncertainty using EITHER a different
  programming language OR by using for loops instead of vectorization withing
  Matlab.
  Compare the speed differences.
